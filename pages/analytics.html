@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8 page-fade-in">
+        <header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold">Analytics Overview</h1>
+                <p class="text-gray-500">Track your platform performance and metrics.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <input type="date" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-sm">
+                <span class="text-gray-400">to</span>
+                <input type="date" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-sm">
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            <div class="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <h2 class="font-bold mb-6">User Acquisition</h2>
+                <div id="acquisition-chart"></div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <h2 class="font-bold mb-6">Sessions by Device</h2>
+                <div id="device-chart"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <p class="text-sm text-gray-500 font-medium">Avg. Session Duration</p>
+                <p class="text-2xl font-bold mt-2">4m 32s</p>
+                <p class="text-xs text-green-500 mt-1">↑ 12% from last week</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <p class="text-sm text-gray-500 font-medium">Bounce Rate</p>
+                <p class="text-2xl font-bold mt-2">32.4%</p>
+                <p class="text-xs text-red-500 mt-1">↓ 5% from last week</p>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/charts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Charts.line('acquisition-chart', [
+                { name: 'Organic', data: [400, 500, 450, 600, 700, 800, 750] },
+                { name: 'Paid', data: [200, 300, 250, 400, 350, 500, 450] }
+            ], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']);
+
+            Charts.donut('device-chart', [60, 30, 10], ['Desktop', 'Mobile', 'Tablet']);
+        });
+    </script>
+</body>
+</html>

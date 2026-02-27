@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-2xl font-bold mb-8">Create New Post</h1>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 space-y-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Post Title</label>
+                    <input type="text" id="post-title" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700" placeholder="Enter title...">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Status</label>
+                        <select id="post-status" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                            <option>Published</option>
+                            <option selected>Draft</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Author</label>
+                        <input type="text" id="post-author" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700" readonly value="Admin">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Content</label>
+                    <div id="editor" class="h-64 bg-white dark:bg-gray-700 rounded-b-lg"></div>
+                </div>
+                <div class="flex justify-end gap-3 pt-6 border-t border-gray-100 dark:border-gray-700">
+                    <a href="posts-list.html" class="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</a>
+                    <button id="save-post" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Save Post</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/editor.js"></script>
+    <script>
+        const quill = Editor.init('editor');
+
+        document.getElementById('save-post').onclick = () => {
+            const post = {
+                title: document.getElementById('post-title').value,
+                status: document.getElementById('post-status').value,
+                author: document.getElementById('post-author').value,
+                content: Editor.getContent(quill),
+                date: new Date().toISOString().split('T')[0]
+            };
+            DB.create('posts', post);
+            UI.toast('Post saved', 'success');
+            setTimeout(() => window.location.href = 'posts-list.html', 1000);
+        };
+    </script>
+</body>
+</html>

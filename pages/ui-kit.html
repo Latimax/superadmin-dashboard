@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Kit | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div id="layout-shell"></div>
+    <!-- Include Layout Shell (similar to dashboard.html but truncated for brevity in this step) -->
+    <!-- For the sake of this demo, I will just output the content part of UI Kit -->
+    <main class="p-8 max-w-6xl mx-auto space-y-12">
+        <header class="flex justify-between items-center mb-12">
+            <div>
+                <h1 class="text-4xl font-bold">UI Kit</h1>
+                <p class="text-gray-500 mt-2">Reusable components and patterns for the dashboard.</p>
+            </div>
+            <a href="dashboard.html" class="text-primary hover:underline">Back to Dashboard</a>
+        </header>
+
+        <!-- Buttons -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Buttons</h2>
+            <div class="flex flex-wrap gap-4">
+                <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition">Primary Button</button>
+                <button class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">Secondary</button>
+                <button class="border border-gray-300 dark:border-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition">Outline</button>
+                <button class="text-primary hover:bg-primary/10 px-4 py-2 rounded-lg transition">Ghost</button>
+                <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Destructive</button>
+                <button disabled class="bg-gray-100 text-gray-400 px-4 py-2 rounded-lg cursor-not-allowed">Disabled</button>
+            </div>
+        </section>
+
+        <!-- Badges -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Badges</h2>
+            <div class="flex flex-wrap gap-4">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700">Primary</span>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">Success</span>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700">Warning</span>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700">Error</span>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-700">Inactive</span>
+            </div>
+        </section>
+
+        <!-- Alerts -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Alerts</h2>
+            <div class="space-y-4">
+                <div class="p-4 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg flex justify-between items-center">
+                    <span>This is an info alert. Something important happened.</span>
+                    <button class="hover:opacity-75">&times;</button>
+                </div>
+                <div class="p-4 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg flex justify-between items-center">
+                    <span>Success! Your changes have been saved.</span>
+                    <button class="hover:opacity-75">&times;</button>
+                </div>
+                <div class="p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg flex justify-between items-center">
+                    <span>Error: Connection lost. Please try again.</span>
+                    <button class="hover:opacity-75">&times;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Cards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 dark:border-gray-700 font-bold">Card Header</div>
+                    <div class="p-4">This is a standard card with a header and body content.</div>
+                    <div class="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-sm text-gray-500">Card Footer</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="font-bold mb-2">No Header Card</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Simple card without header or footer padding differences.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modals -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Modals</h2>
+            <button data-modal-target="demo-modal" class="bg-primary text-white px-4 py-2 rounded-lg">Open Demo Modal</button>
+
+            <!-- Modal Structure -->
+            <div id="demo-modal" class="modal fixed inset-0 bg-black/50 items-center justify-center z-50 hidden">
+                <div class="bg-white dark:bg-gray-800 w-full max-w-md rounded-xl shadow-2xl overflow-hidden page-fade-in">
+                    <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Confirm Action</h3>
+                        <button data-modal-close class="text-gray-500 hover:text-gray-700">&times;</button>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 dark:text-gray-400">Are you sure you want to proceed with this action? This cannot be undone.</p>
+                    </div>
+                    <div class="p-6 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-3">
+                        <button data-modal-close class="px-4 py-2 text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Cancel</button>
+                        <button onclick="UI.toast('Action confirmed', 'success'); UI.hideModal('demo-modal')" class="px-4 py-2 bg-primary text-white rounded-lg">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Tabs</h2>
+            <div class="tabs-container">
+                <div class="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+                    <button class="tab-btn px-4 py-2 border-b-2 border-primary text-primary font-medium" data-tab-target="tab-1">Profile</button>
+                    <button class="tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium" data-tab-target="tab-2">Settings</button>
+                    <button class="tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium" data-tab-target="tab-3">Security</button>
+                </div>
+                <div id="tab-1" class="tab-content">This is the Profile tab content.</div>
+                <div id="tab-2" class="tab-content hidden">Settings tab content here.</div>
+                <div id="tab-3" class="tab-content hidden">Security tab content here.</div>
+            </div>
+        </section>
+
+        <!-- Forms -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Forms</h2>
+            <div class="max-w-md space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Text Input</label>
+                    <input type="text" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700" placeholder="Enter text...">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Select Menu</label>
+                    <select class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="check1" class="w-4 h-4 text-primary border-gray-300 rounded">
+                    <label for="check1" class="text-sm">Checkbox Label</label>
+                </div>
+                <div class="flex items-center gap-4">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        <span class="ml-3 text-sm font-medium">Toggle Switch</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toast Button -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Toasts</h2>
+            <div class="flex gap-4">
+                <button onclick="UI.toast('Info message', 'info')" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Info Toast</button>
+                <button onclick="UI.toast('Success message', 'success')" class="bg-green-500 text-white px-4 py-2 rounded-lg">Success Toast</button>
+                <button onclick="UI.toast('Warning message', 'warning')" class="bg-yellow-500 text-white px-4 py-2 rounded-lg">Warning Toast</button>
+                <button onclick="UI.toast('Error message', 'error')" class="bg-red-500 text-white px-4 py-2 rounded-lg">Error Toast</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/app.js"></script>
+</body>
+</html>

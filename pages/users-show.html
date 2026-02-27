@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-4">
+                    <a href="users-list.html" class="p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:text-primary transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </a>
+                    <h1 class="text-2xl font-bold">User Profile</h1>
+                </div>
+                <div id="action-buttons">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Profile Info Card -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
+                        <img id="user-avatar" src="" alt="Avatar" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-100 dark:border-gray-700">
+                        <h2 id="user-name" class="text-xl font-bold"></h2>
+                        <p id="user-role" class="text-gray-500 text-sm mb-4"></p>
+                        <span id="user-status" class="px-2 py-1 text-xs rounded-full"></span>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-bold mb-4">Contact Information</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Email:</span>
+                                <span id="user-email" class="font-medium"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Phone:</span>
+                                <span class="font-medium">+1 (555) 000-0000</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Location:</span>
+                                <span class="font-medium">San Francisco, CA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Details / Activity -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                         <div class="p-6 border-b border-gray-100 dark:border-gray-700">
+                            <h3 class="font-bold">Recent Activity</h3>
+                         </div>
+                         <div class="p-6">
+                            <div class="space-y-6" id="user-activity">
+                                <!-- Mock Activity -->
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h12m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">Logged in from new device</p>
+                                        <p class="text-xs text-gray-500">2 hours ago • Chrome on MacOS</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">Changed password</p>
+                                        <p class="text-xs text-gray-500">Yesterday at 3:45 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get('id');
+
+        if (userId) {
+            const user = DB.get('users').find(u => String(u.id) === userId);
+            if (user) {
+                document.getElementById('user-name').textContent = user.name;
+                document.getElementById('user-email').textContent = user.email;
+                document.getElementById('user-role').textContent = user.role;
+                document.getElementById('user-avatar').src = user.avatar;
+
+                const statusEl = document.getElementById('user-status');
+                statusEl.textContent = user.status;
+                statusEl.className = `px-2 py-1 text-xs rounded-full ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
+
+                document.getElementById('action-buttons').innerHTML = `
+                    <a href="users-edit.html?id=${user.id}" class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition">Edit Profile</a>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

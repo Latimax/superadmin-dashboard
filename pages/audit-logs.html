@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Logs | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8 page-fade-in">
+        <h1 class="text-3xl font-bold mb-8">Audit Logs</h1>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 dark:bg-gray-700 text-xs text-gray-500 uppercase">
+                        <tr>
+                            <th class="px-6 py-4">User</th>
+                            <th class="px-6 py-4">Action</th>
+                            <th class="px-6 py-4">Module</th>
+                            <th class="px-6 py-4">Timestamp</th>
+                            <th class="px-6 py-4">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-700" id="audit-table-body">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logs = DB.get('auditLogs');
+            const tableBody = document.getElementById('audit-table-body');
+            tableBody.innerHTML = logs.map(l => `
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                    <td class="px-6 py-4 font-bold">${l.user}</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">${l.action}</span></td>
+                    <td class="px-6 py-4 text-sm">${l.module}</td>
+                    <td class="px-6 py-4 text-xs text-gray-500">${l.timestamp}</td>
+                    <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">${l.details}</td>
+                </tr>
+            `).join('');
+        });
+    </script>
+</body>
+</html>

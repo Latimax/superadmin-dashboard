@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ticket | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-2xl font-bold mb-8">Edit Ticket Metadata</h1>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+                <form id="edit-ticket-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Subject</label>
+                        <input type="text" id="subject" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Priority</label>
+                            <select id="priority" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                                <option>Urgent</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Status</label>
+                            <select id="status" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                                <option>Open</option>
+                                <option>Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-6 border-t border-gray-100 dark:border-gray-700">
+                        <a href="tickets-list.html" class="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</a>
+                        <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Update Ticket</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const ticketId = params.get('id');
+        if (ticketId) {
+            const t = DB.get('tickets').find(x => x.id === ticketId);
+            if (t) {
+                document.getElementById('subject').value = t.subject;
+                document.getElementById('priority').value = t.priority;
+                document.getElementById('status').value = t.status;
+            }
+        }
+        document.getElementById('edit-ticket-form').onsubmit = (e) => {
+            e.preventDefault();
+            const updated = {
+                subject: document.getElementById('subject').value,
+                priority: document.getElementById('priority').value,
+                status: document.getElementById('status').value
+            };
+            DB.update('tickets', ticketId, updated);
+            UI.toast('Ticket updated', 'success');
+            setTimeout(() => window.location.href = 'tickets-list.html', 1000);
+        };
+    </script>
+</body>
+</html>
