@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-4">
+                    <a href="orders-list.html" class="p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:text-primary transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </a>
+                    <h1 class="text-2xl font-bold">Order <span id="order-id-display"></span></h1>
+                </div>
+                <button onclick="window.print()" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 00-2 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print Invoice
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Items Table -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div class="p-6 border-b border-gray-100 dark:border-gray-700">
+                            <h3 class="font-bold">Order Items</h3>
+                        </div>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 dark:bg-gray-700 text-xs text-gray-500 uppercase">
+                                <tr>
+                                    <th class="px-6 py-4">Item</th>
+                                    <th class="px-6 py-4 text-center">Qty</th>
+                                    <th class="px-6 py-4 text-right">Price</th>
+                                    <th class="px-6 py-4 text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order-items-body" class="divide-y divide-gray-100 dark:divide-gray-700">
+                                <!-- Filled via JS -->
+                            </tbody>
+                        </table>
+                        <div class="p-6 bg-gray-50 dark:bg-gray-700/50 flex flex-col items-end gap-2">
+                            <div class="flex justify-between w-48 text-sm">
+                                <span class="text-gray-500">Subtotal</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="flex justify-between w-48 text-sm font-bold pt-2 border-t border-gray-200 dark:border-gray-600">
+                                <span>Grand Total</span>
+                                <span id="grand-total" class="text-primary text-lg">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Stepper -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-bold mb-8">Order Status Timeline</h3>
+                        <div class="relative pl-8 border-l-2 border-gray-100 dark:border-gray-700 space-y-8">
+                            <div class="relative">
+                                <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-gray-800"></div>
+                                <p class="text-sm font-bold">Order Placed</p>
+                                <p class="text-xs text-gray-500">October 10, 2023 - 10:30 AM</p>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-gray-800 shadow-[0_0_0_8px_rgba(59,130,246,0.1)]"></div>
+                                <p class="text-sm font-bold">Payment Confirmed</p>
+                                <p class="text-xs text-gray-500">October 10, 2023 - 10:35 AM</p>
+                            </div>
+                            <div class="relative opacity-50">
+                                <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-gray-300 border-4 border-white dark:border-gray-800"></div>
+                                <p class="text-sm font-bold">Processing</p>
+                                <p class="text-xs text-gray-500">Pending</p>
+                            </div>
+                            <div class="relative opacity-50">
+                                <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-gray-300 border-4 border-white dark:border-gray-800"></div>
+                                <p class="text-sm font-bold">Shipped</p>
+                                <p class="text-xs text-gray-500">Pending</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-bold mb-4">Customer Details</h3>
+                        <div class="flex items-center gap-3 mb-6">
+                            <img src="https://i.pravatar.cc/150?u=1" class="w-12 h-12 rounded-full">
+                            <div>
+                                <p id="cust-name" class="font-bold"></p>
+                                <p class="text-xs text-gray-500">5 Past Orders</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 text-sm">
+                            <div>
+                                <p class="text-gray-500 mb-1">Email</p>
+                                <p class="font-medium">customer@example.com</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 mb-1">Phone</p>
+                                <p class="font-medium">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="font-bold mb-4">Shipping Address</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                            John Doe<br>
+                            123 Main Street, Suite 456<br>
+                            San Francisco, CA 94107<br>
+                            United States
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('id');
+        if (orderId) {
+            const o = DB.get('orders').find(x => x.id === orderId);
+            if (o) {
+                document.getElementById('order-id-display').textContent = o.id;
+                document.getElementById('cust-name').textContent = o.customer;
+                document.getElementById('subtotal').textContent = `$${o.total.toFixed(2)}`;
+                document.getElementById('grand-total').textContent = `$${o.total.toFixed(2)}`;
+
+                const itemsBody = document.getElementById('order-items-body');
+                itemsBody.innerHTML = o.items.map(item => `
+                    <tr>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex-shrink-0"></div>
+                                <span class="text-sm font-medium">Product ID: ${item.productId}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">${item.quantity}</td>
+                        <td class="px-6 py-4 text-right">$${item.price.toFixed(2)}</td>
+                        <td class="px-6 py-4 text-right font-bold">$${(item.price * item.quantity).toFixed(2)}</td>
+                    </tr>
+                `).join('');
+            }
+        }
+    </script>
+</body>
+</html>

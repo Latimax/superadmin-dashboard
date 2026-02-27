@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders List | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 min-h-screen flex flex-col">
+        <header class="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-8 flex items-center justify-between sticky top-0 z-30">
+            <h1 class="text-xl font-bold">Orders Management</h1>
+            <div class="flex gap-2">
+                <button onclick="exportOrders()" class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition">Export</button>
+            </div>
+        </header>
+
+        <div class="p-8 page-fade-in">
+             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+                    <input type="text" id="order-search" placeholder="Search by Order ID or Customer..." class="max-w-sm w-full bg-gray-100 dark:bg-gray-700 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-primary transition">
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 dark:bg-gray-700 text-xs text-gray-500 uppercase">
+                            <tr>
+                                <th class="px-6 py-4">Order ID</th>
+                                <th class="px-6 py-4">Customer</th>
+                                <th class="px-6 py-4">Date</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4 text-right">Total</th>
+                                <th class="px-6 py-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-gray-700" id="orders-table-body">
+                            <!-- Rows via JS -->
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+        </div>
+    </main>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        function renderOrders(filter = '') {
+            const tableBody = document.getElementById('orders-table-body');
+            const orders = DB.get('orders');
+            const filtered = orders.filter(o =>
+                o.id.toLowerCase().includes(filter.toLowerCase()) ||
+                o.customer.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            tableBody.innerHTML = filtered.map(o => `
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                    <td class="px-6 py-4 font-bold text-primary">${o.id}</td>
+                    <td class="px-6 py-4 font-medium">${o.customer}</td>
+                    <td class="px-6 py-4 text-gray-500">${o.date}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-full ${
+                            o.status === 'Completed' ? 'bg-green-100 text-green-700' :
+                            o.status === 'Processing' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'
+                        }">${o.status}</span>
+                    </td>
+                    <td class="px-6 py-4 text-right font-semibold">$${o.total.toFixed(2)}</td>
+                    <td class="px-6 py-4 text-right">
+                        <a href="orders-show.html?id=${o.id}" class="text-primary hover:underline text-sm font-medium">View Details</a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function exportOrders() {
+            Tables.exportCSV('orders.csv', DB.get('orders'));
+        }
+
+        document.getElementById('order-search').oninput = (e) => renderOrders(e.target.value);
+        renderOrders();
+    </script>
+</body>
+</html>

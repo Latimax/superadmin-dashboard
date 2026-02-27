@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8 page-fade-in">
+        <h1 class="text-3xl font-bold mb-8">Billing & Subscription</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Current Plan -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold">Pro Plan</h2>
+                            <p class="text-sm text-gray-500 mt-1">Next billing date: November 24, 2023</p>
+                        </div>
+                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold uppercase">Active</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-6">
+                        <span class="text-4xl font-bold">$49</span>
+                        <span class="text-gray-500">/ month</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="bg-primary text-white px-6 py-2 rounded-lg font-bold hover:bg-primary/90 transition">Upgrade Plan</button>
+                        <button class="px-6 py-2 border border-gray-200 dark:border-gray-700 rounded-lg font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-lg font-bold mb-6">Payment Methods</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border border-gray-100 dark:border-gray-700 rounded-lg">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-8 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center font-bold italic text-blue-600">VISA</div>
+                                <div>
+                                    <p class="font-bold">Visa ending in 4242</p>
+                                    <p class="text-xs text-gray-500">Expiry 12/24 • Primary</p>
+                                </div>
+                            </div>
+                            <button class="text-sm text-primary hover:underline font-medium">Edit</button>
+                        </div>
+                    </div>
+                    <button class="mt-6 text-sm text-primary font-bold hover:underline">+ Add New Payment Method</button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <!-- Invoice History -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+                        <h2 class="font-bold">Recent Invoices</h2>
+                    </div>
+                    <div class="divide-y divide-gray-100 dark:divide-gray-700">
+                        <div class="p-4 flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer">
+                            <div>
+                                <p class="text-sm font-bold">INV-2023-010</p>
+                                <p class="text-xs text-gray-500">Oct 24, 2023</p>
+                            </div>
+                            <span class="text-sm font-bold">$49.00</span>
+                        </div>
+                        <div class="p-4 flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer">
+                            <div>
+                                <p class="text-sm font-bold">INV-2023-009</p>
+                                <p class="text-xs text-gray-500">Sep 24, 2023</p>
+                            </div>
+                            <span class="text-sm font-bold">$49.00</span>
+                        </div>
+                    </div>
+                    <a href="#" class="block p-4 text-center text-sm text-primary font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition">View All Invoices</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

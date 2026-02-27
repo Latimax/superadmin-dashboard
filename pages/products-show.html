@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Product | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-8">
+                <a href="products-list.html" class="p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:text-primary transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
+                <h1 class="text-2xl font-bold">Product Details</h1>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="p-8 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                        <div class="w-64 h-64 bg-white dark:bg-gray-800 rounded-lg shadow-inner flex items-center justify-center text-gray-400">
+                             <svg class="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="mb-6">
+                            <span id="p-category" class="text-xs font-bold text-primary uppercase tracking-widest"></span>
+                            <h2 id="p-name" class="text-3xl font-bold mt-1"></h2>
+                            <p id="p-status" class="mt-2 inline-block px-2 py-1 text-xs rounded-full"></p>
+                        </div>
+                        <div class="text-4xl font-bold mb-6 text-gray-900 dark:text-white" id="p-price"></div>
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Stock Availability:</span>
+                                <span id="p-stock" class="font-bold"></span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">SKU:</span>
+                                <span class="font-bold uppercase" id="p-sku"></span>
+                            </div>
+                        </div>
+                        <a id="edit-link" href="#" class="block w-full text-center bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary/90 transition">Edit Product</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+        if (productId) {
+            const p = DB.get('products').find(x => String(x.id) === productId);
+            if (p) {
+                document.getElementById('p-name').textContent = p.name;
+                document.getElementById('p-category').textContent = p.category;
+                document.getElementById('p-price').textContent = `$${p.price.toFixed(2)}`;
+                document.getElementById('p-stock').textContent = `${p.stock} units`;
+                document.getElementById('p-sku').textContent = `SKU-${p.id}-PRD`;
+                document.getElementById('edit-link').href = `products-edit.html?id=${p.id}`;
+                const st = document.getElementById('p-status');
+                st.textContent = p.status;
+                st.className = `mt-2 inline-block px-2 py-1 text-xs rounded-full ${p.status === 'In Stock' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
+            }
+        }
+    </script>
+</body>
+</html>

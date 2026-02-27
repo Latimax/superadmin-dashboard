@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Thread | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div id="layout-shell"></div>
+    <main class="lg:ml-64 p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-8 flex justify-between items-center">
+                <a href="tickets-list.html" class="flex items-center text-primary hover:underline">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back to Tickets
+                </a>
+                <div id="status-badge"></div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col h-[700px]">
+                <div class="p-6 border-b border-gray-100 dark:border-gray-700">
+                    <h2 id="ticket-subject" class="text-xl font-bold"></h2>
+                    <p class="text-sm text-gray-500 mt-1">Started by <span id="ticket-cust" class="font-medium text-gray-900 dark:text-white"></span></p>
+                </div>
+
+                <div id="chat-box" class="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50 dark:bg-gray-900/50">
+                    <!-- Messages via JS -->
+                </div>
+
+                <div class="p-6 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
+                    <form id="reply-form" class="flex gap-4">
+                        <input type="text" id="reply-text" required class="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:ring-2 focus:ring-primary outline-none" placeholder="Type your message...">
+                        <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const ticketId = params.get('id');
+        let currentTicket = null;
+
+        function renderMessages() {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = currentTicket.messages.map(m => `
+                <div class="flex ${m.sender === 'Admin' ? 'justify-end' : 'justify-start'}">
+                    <div class="max-w-[80%] ${m.sender === 'Admin' ? 'bg-primary text-white rounded-l-xl rounded-tr-xl' : 'bg-white dark:bg-gray-800 rounded-r-xl rounded-tl-xl border border-gray-200 dark:border-gray-700'} p-4 shadow-sm">
+                        <p class="text-xs ${m.sender === 'Admin' ? 'text-blue-100' : 'text-gray-500'} mb-1 font-bold">${m.sender}</p>
+                        <p class="text-sm leading-relaxed">${m.text}</p>
+                        <p class="text-[10px] ${m.sender === 'Admin' ? 'text-blue-200' : 'text-gray-400'} mt-2 text-right">${m.time}</p>
+                    </div>
+                </div>
+            `).join('');
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        if (ticketId) {
+            currentTicket = DB.get('tickets').find(x => x.id === ticketId);
+            if (currentTicket) {
+                document.getElementById('ticket-subject').textContent = currentTicket.subject;
+                document.getElementById('ticket-cust').textContent = currentTicket.customer;
+                document.getElementById('status-badge').innerHTML = `
+                    <span class="px-3 py-1 rounded-full text-xs font-bold ${currentTicket.status === 'Open' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}">${currentTicket.status}</span>
+                `;
+                renderMessages();
+            }
+        }
+
+        document.getElementById('reply-form').onsubmit = (e) => {
+            e.preventDefault();
+            const reply = {
+                sender: 'Admin',
+                text: document.getElementById('reply-text').value,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            currentTicket.messages.push(reply);
+            currentTicket.lastUpdate = new Date().toLocaleString();
+            DB.update('tickets', ticketId, currentTicket);
+            document.getElementById('reply-text').value = '';
+            renderMessages();
+        };
+    </script>
+</body>
+</html>
